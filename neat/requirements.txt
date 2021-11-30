@@ -1,0 +1,11 @@
+cloudpickle==2.0.0
+gym==0.21.0
+matplotlib==3.3.4
+neat-python==0.92
+numpy==1.19.5
+opencv-python==4.5.4.60
+pandas==1.1.5
+Pillow==8.4.0
+pytessy==0.1.0
+pywin32==300
+vgamepad==0.0.6
