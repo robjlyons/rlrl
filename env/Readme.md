@@ -1,6 +1,6 @@
 # The RetroArch Environment
 
-I use the OpenAI Gym system for this as it makes implementing algorithms much easier.
+I use the OpenAI Gym system for this as it makes implementing algorithms much easier. I will add folders for more games as I implement them.
 
 ## Files
 
