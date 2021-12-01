@@ -13,7 +13,7 @@ I strongly suggest using a conda environment for all of this, prefferably for ea
 - [x] [NEAT](neat/Readme.md)
 - [x] [Stable Baselines 2](stable_baselines/Readme.md)
 - [x] [Stable Baselines 3](stable_baselines_3/Readme.md)
-- [x] Dreamerv2
+- [x] [DreamerV2](dreamerv2/Readme.md)
 - [ ] Agent57
 - [ ] Muzero
 - [ ] ICM
