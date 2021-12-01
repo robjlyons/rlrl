@@ -3,14 +3,14 @@
 I suggest having a read through their docs [stablebaselines](https://stable-baselines.readthedocs.io/en/master/guide/install.html)
 
 This package allows several algorithms to be used with games:
--A2C
--ACER
--ACKTR
--DQN
--HER
--GAIL
--PPO1
--PPO2
+- A2C
+- ACER
+- ACKTR
+- DQN
+- HER
+- GAIL
+- PPO1
+- PPO2
 
 I have also included a version that mixes an algorithm with a genetic system like NEAT.
 
