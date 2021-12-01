@@ -11,3 +11,10 @@ I strongly suggest using a conda environment for all of this, prefferably for ea
 ## Implementations TODO
 
 - [x] [NEAT](neat/Readme.md)
+- [x] [Stable Baselines 2](stable_baselines/Readme.md)
+- [x] [Stable Baselines 3](stable_baselines_3/Readme.md)
+- [ ] Dreamerv2
+- [ ] Agent57
+- [ ] Muzero
+- [ ] ICM
+- [ ] RND
