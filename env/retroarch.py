@@ -205,6 +205,8 @@ class RetroArch(Env):
         gamepad.update()
 
         self.steps = 0
+        self.current_max_reward = 0
+        self.reward_current = 0
         screen = wincap.get_screenshot()
         obs = cv.resize(screen, (200,200))
         return obs
@@ -260,14 +262,23 @@ class RetroArch(Env):
         
         # Assert that it is a valid action 
         #assert self.action_space.contains(action), "Invalid Action"
+
+        ### Reward ###
+        reward = 0
         
         ### SCORE ###
-        reward = 0
         try:
-            score = roi_1()
+            score = roi_2()
+            reward_current = int(score)
+            current_max_reward = self.current_max_reward
             while True:
-                reward = int(score) / 100
-                break
+                if reward_current > current_max_reward:
+                    current_max_reward = reward_current
+                    reward += 1
+                    break
+                else:
+                    reward += 0
+                    break
         except:
             reward += 0
 
