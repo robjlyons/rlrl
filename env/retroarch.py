@@ -105,7 +105,7 @@ def roi_1(): # Menu ROI for detecting start (START)
 
 def roi_2(): # Score Numbers
     screen = wincap.get_screenshot()
-    screen = screen[45:67, 1:143] # [y1:y2, x1:x2]
+    screen = screen[45:68, 1:95] # [y1:y2, x1:x2]
     gray = get_grayscale(screen)
     resize = cv.resize(gray, (200,75))
     img = opening(resize)
@@ -114,8 +114,7 @@ def roi_2(): # Score Numbers
     imgBytes = ocr.tobytes()
     bytesPerPixel = int(len(imgBytes) / (ocr.width * ocr.height))
     ocr_result = ocrReader.read(ocr.tobytes(), ocr.width, ocr.height, bytesPerPixel, raw=True, resolution=600)
-    result = str(ocr_result)
-    roi_2 = replace_chars(result)[0]
+    roi_2 = str(ocr_result)
 
     return roi_2
 
@@ -133,6 +132,36 @@ def roi_3(): # Game Over ROI (GHAC)
     roi_3 = str(result)
 
     return roi_3
+
+def roi_4(): # Lives
+    screen = wincap.get_screenshot()
+    screen = screen[23:45, 169:192] # [y1:y2, x1:x2]
+    gray = get_grayscale(screen)
+    resize = cv.resize(gray, (200,200))
+    img = opening(resize)
+    ocr = Image.fromarray(img)
+    ocr = ocr.filter(ImageFilter.SHARPEN)
+    imgBytes = ocr.tobytes()
+    bytesPerPixel = int(len(imgBytes) / (ocr.width * ocr.height))
+    ocr_result = ocrReader.read(ocr.tobytes(), ocr.width, ocr.height, bytesPerPixel, raw=True, resolution=600)
+    roi_4 = str(ocr_result)
+
+    return roi_4
+
+def roi_5(): # Coins
+    screen = wincap.get_screenshot()
+    screen = screen[46:69, 218:261] # [y1:y2, x1:x2]
+    gray = get_grayscale(screen)
+    resize = cv.resize(gray, (200,100))
+    img = opening(resize)
+    ocr = Image.fromarray(img)
+    ocr = ocr.filter(ImageFilter.SHARPEN)
+    imgBytes = ocr.tobytes()
+    bytesPerPixel = int(len(imgBytes) / (ocr.width * ocr.height))
+    ocr_result = ocrReader.read(ocr.tobytes(), ocr.width, ocr.height, bytesPerPixel, raw=True, resolution=600)
+    roi_5 = str(ocr_result)
+
+    return roi_5
 
 def get_grayscale(image):
     return cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -255,6 +284,7 @@ class RetroArch(Env):
         done = False
         self.steps += 1
         #print(self.steps)
+        #time.sleep(0.02)
 
         # obs
         screen = wincap.get_screenshot()
@@ -270,7 +300,7 @@ class RetroArch(Env):
         try:
             score = roi_2()
             reward_current = int(score)
-            current_max_reward = self.current_max_reward
+            current_max_reward = 0
             while True:
                 if reward_current > current_max_reward:
                     current_max_reward = reward_current
@@ -282,19 +312,27 @@ class RetroArch(Env):
         except:
             reward += 0
 
-        ### EPISODES ###
-        # If dead, end the episode.
-        game = roi_3()
+        ### Coins ###
         try:
+            coins = roi_5()
+            coins_current = coins
             while True:
-                if 'GHAC' in game:
-                    reward += 0
-                    done = True
+                if coins_current != current_max_coins:
+                    current_max_coins = coins_current
+                    reward += 1
                     break
                 else:
                     reward += 0
                     break
         except:
+            reward += 0
+
+        ### LIVES ###
+        lives = roi_4()
+        if "1" in lives:
+            reward += -1000
+            done = True
+        else:
             reward += 0
 
         # Actions
