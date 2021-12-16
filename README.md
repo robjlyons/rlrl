@@ -7,6 +7,9 @@ Where gym atari envs use ram to track scores and so on, here I am using just com
 
 I strongly suggest using a conda environment for all of this, prefferably for each algorithm as they can use different libraries, especially things like torch and tensorflow.
 
+## Caution
+
+These implementations are not tested to convergence. I own a potato as a PC and therefore have only been able to test upto 1m frames on very low batch sizes..
 
 ## Implementations TODO
 
