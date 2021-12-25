@@ -148,21 +148,6 @@ def roi_4(): # Lives
 
     return roi_4
 
-def roi_5(): # Coins
-    screen = wincap.get_screenshot()
-    screen = screen[46:69, 218:261] # [y1:y2, x1:x2]
-    gray = get_grayscale(screen)
-    resize = cv.resize(gray, (200,100))
-    img = opening(resize)
-    ocr = Image.fromarray(img)
-    ocr = ocr.filter(ImageFilter.SHARPEN)
-    imgBytes = ocr.tobytes()
-    bytesPerPixel = int(len(imgBytes) / (ocr.width * ocr.height))
-    ocr_result = ocrReader.read(ocr.tobytes(), ocr.width, ocr.height, bytesPerPixel, raw=True, resolution=600)
-    roi_5 = str(ocr_result)
-
-    return roi_5
-
 def get_grayscale(image):
     return cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
@@ -232,10 +217,7 @@ class RetroArch(Env):
 
         gamepad.reset()
         gamepad.update()
-
-        self.steps = 0
-        self.current_max_reward = 0
-        self.reward_current = 0
+        self.score_reward_old = 0
         screen = wincap.get_screenshot()
         obs = cv.resize(screen, (200,200))
         return obs
@@ -282,16 +264,13 @@ class RetroArch(Env):
     def step(self, action):
         # Flag that marks the termination of an episode
         done = False
-        self.steps += 1
-        #print(self.steps)
-        #time.sleep(0.02)
 
         # obs
         screen = wincap.get_screenshot()
         obs = cv.resize(screen, (200,200))
         
         # Assert that it is a valid action 
-        #assert self.action_space.contains(action), "Invalid Action"
+        assert self.action_space.contains(action), "Invalid Action"
 
         ### Reward ###
         reward = 0
@@ -299,38 +278,19 @@ class RetroArch(Env):
         ### SCORE ###
         try:
             score = roi_2()
-            reward_current = int(score)
-            current_max_reward = 0
-            while True:
-                if reward_current > current_max_reward:
-                    current_max_reward = reward_current
-                    reward += 1
-                    break
-                else:
-                    reward += 0
-                    break
-        except:
-            reward += 0
-
-        ### Coins ###
-        try:
-            coins = roi_5()
-            coins_current = coins
-            while True:
-                if coins_current != current_max_coins:
-                    current_max_coins = coins_current
-                    reward += 1
-                    break
-                else:
-                    reward += 0
-                    break
+            score_reward = int(score)
+            if score_reward > self.score_reward_old:
+                self.score_reward_old = score_reward
+                reward += self.score_reward_old
+            else:
+                reward += 0
         except:
             reward += 0
 
         ### LIVES ###
         lives = roi_4()
         if "1" in lives:
-            reward += -1000
+            reward += 0
             done = True
         else:
             reward += 0
