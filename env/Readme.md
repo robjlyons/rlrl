@@ -18,7 +18,7 @@ In this repository you will find:
 For windows only, other OS might just require some googling
 
 ```
-pip install opencv-python numpy vgamepad matplotlib gym pytessy
+pip install opencv-python numpy vgamepad matplotlib gym pytessy pywin32
 ```
 
 vgamepad needs to install something on your computer but it is automatic. It asks everytime but you can cancel after it's done once.
