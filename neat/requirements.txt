@@ -3,7 +3,7 @@ gym==0.21.0
 matplotlib==3.3.4
 neat-python==0.92
 numpy==1.19.5
-opencv-python==4.5.4.60
+opencv-python==4.8.1.78.60
 pandas==1.1.5
 Pillow==8.4.0
 pytessy==0.1.0
