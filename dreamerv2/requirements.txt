@@ -8,3 +8,4 @@ tensorflow-probability==0.12.2
 vgamepad==0.0.6
 ruamel.yaml
 dm_control
+pillow>=10.2.0 # not directly required, pinned by Snyk to avoid a vulnerability
