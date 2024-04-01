@@ -6,3 +6,4 @@ gym==0.19.0
 tensorflow==1.15.0
 tqdm==4.62.3
 vgamepad==0.0.6
+pillow>=10.3.0 # not directly required, pinned by Snyk to avoid a vulnerability
